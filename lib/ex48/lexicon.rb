@@ -9,29 +9,26 @@ module Lexicon
 
   def self.scan(sentence)
     words = sentence.split
-    directions = ["north", "south", "east", "west", "down", "up", "left", "right", "back"]
-    verbs = ["go", "kill", "eat"]
-    stop = ['the', 'in', 'of']
-    nouns = ['bear', 'princess']
-    result = []
+    dictionary = {
+      direction: ["north", "south", "east", "west", "down", "up", "left", "right", "back"],
+      verb: ["go", "kill", "eat"],
+      stop: ['the', 'in', 'of'],
+      noun: ['bear', 'princess']
+    }
 
-    words.each do | word |
+    words.map do | word |
       number = convert_number(word)
       if number
-        result.push(["number", number])
-      elsif directions.include?(word.downcase)
-        result.push(["direction", word])
-      elsif verbs.include?(word.downcase)
-        result.push(["verb", word])
-      elsif stop.include?(word.downcase)
-        result.push(["stop", word])
-      elsif nouns.include?(word.downcase)
-        result.push(["noun", word])
+        ["number", number]
       else
-        result.push(["error", word])
+        matched = dictionary.select{|key, words| words.include?(word.downcase)}.keys
+
+        if matched.length > 0
+          [matched[0].to_s, word]
+        else
+          ['error', word]
+        end
       end
     end
-
-    result
   end
 end
