@@ -67,3 +67,28 @@ Modules can also be added with `extend` keyword, then the modules methods are _a
 “Superclasses should not contain code that applies to some, but not all, subclasses. This restriction also applies to modules: the code in a module must apply to all who use it.” If the abstraction cannot be correctly identified it might not exist. You should not check for the _type_ of something in order to know how to treat it. Subbtypes must be substitutable for their supertypes.
 
 Hierarchies should be shallow and as narrow as possible.
+
+## Chapter 8: Combining Objects with Composition
+
+_is-a_ vs _behaves-like-a_ vs _has-a_
+
+Composed object is a _role_, depends on the interface of the role, and has no life independent of its container. Agreggation may also exist, when the object exists on their own.
+
+Composition is preferred over inheritance because it has fewer dependencies, but “Inheritance is a better solution when its use provides high rewards for low risk”
+
+#### Costs of inheritance:
+
+- Dependencies
+- If the model is incorrect, a new behaviour might not fit, so new code will be harder to implement.
+- A change in a superclass will have a great and broad impact
+
+#### Benefits of composition
+
+- Small, single responsibility principle
+- Pluggable, interchangeable
+- High change tolerance
+
+#### Costs of composition
+
+- The whole object composed by tiny parts may be harder to understand
+- “The composed object must explicitly know which messages to delegate and to whom. Identical delegation code many be needed by many different objects; composition provides no way to share this code.”
