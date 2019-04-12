@@ -51,3 +51,19 @@ end
 Bicycle both sends and implements `post_initialize`, and the subclass may override it if necessary.
 
 ## Chapter 7: Sharing Role Behavior with Modules
+
+Behaviour can also be shared though _roles_, so it doesn't depend on a parent-children relationship. Roles can share specific behaviour, but also just message signature (like a `prepare_trip` method name that does different things). Related to chapter 5 Duck typing.
+
+Classical vs Models — _is-a_ vs _behaves-like-a_
+
+“Objects should manage themselves; they should contain their own behavior. If your interest is in object B, you should not be forced to know about object A if your only use of it is to find things out about B.”
+
+Before starting to write a module, it's better to pick an arbitrary concrete class and implement the method there. Afterwards, we can extract the abstraction into a module that allows the behaviour to be shared. Like with superclasses, modules should apply the template method pattern: every method must be implemented to avoid errors. Even if the only reasonable implementation is return a useful error that is easy to understand.
+
+Modules can be added to classes with `include Module_name`, so the instances gain access to the module's methods.
+
+Modules can also be added with `extend` keyword, then the modules methods are _added_ to the instance.
+
+“Superclasses should not contain code that applies to some, but not all, subclasses. This restriction also applies to modules: the code in a module must apply to all who use it.” If the abstraction cannot be correctly identified it might not exist. You should not check for the _type_ of something in order to know how to treat it. Subbtypes must be substitutable for their supertypes.
+
+Hierarchies should be shallow and as narrow as possible.
