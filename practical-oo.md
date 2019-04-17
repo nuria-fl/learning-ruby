@@ -92,3 +92,43 @@ Composition is preferred over inheritance because it has fewer dependencies, but
 
 - The whole object composed by tiny parts may be harder to understand
 - “The composed object must explicitly know which messages to delegate and to whom. Identical delegation code many be needed by many different objects; composition provides no way to share this code.”
+
+## Chapter 9: Designing Cost-Effective tests
+
+Tests should check incoming and outgoing messages, not internals, so they don't break when refactoring code.
+
+Outgoing messages should not be tested for state, this tests should concentrate on the component that receives the messages. They need to be tested when they are _commands_ (when they have side effects)
+
+“Incoming messages should be tested for the state they return. Outgoing command messages should be tested to ensure they get sent. Outgoing query messages should not be tested.”
+
+Command messages can be tested with mocks:
+
+```
+@observer = MiniTest::Mock.new
+```
+
+```
+@observer.verify
+```
+
+Duck types can be tested with an _InterfaceTest_ that can be reused (included) in all the tests for the objects that play that role.
+
+```
+module PreparerInterfaceTest
+  def test_implements_the_preparer_interface
+    assert_respond_to(@object, :prepare_trip)
+  end
+end
+```
+
+```
+class MechanicTest < MiniTest::Unit::TestCase
+  include PreparerInterfaceTest
+
+  # etc
+end
+```
+
+This kind of interface tests also help when using stubs (ensures that the stub is consistent with the object that is replacing), as well as testing inherited code.
+
+Superclasses are abstract, can be tested by stubbing a subclass.
